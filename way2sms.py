@@ -77,9 +77,40 @@ class Way2sms(object):
                 print('Part [{}/{}]'.format(i + 1, len(message_list)), end=' ')
 
             if quota_finished_text not in resp.text:
-                print('Successfully sent.')
+                if self._sent_verify(to_number, message):
+                    print('Successfully sent.')
+                else:
+                    print('Failed to send.')
             else:
                 print('Not sent, Quota finished.')
+
+    def _sent_verify(self, mobile, message):
+        print('verifying message.')
+        if not self.token:
+            print('Not logged in')
+            return
+
+        today = datetime.date.today().strftime('%d/%m/%Y')
+
+        payload = {
+            'Token': self.token,
+            'dt': today
+        }
+
+        _sent_verify_url = '/'.join([self.base_url, 'sentSMS.action'])
+
+        resp = self.session.post(_sent_verify_url, data=payload)
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+
+        first = soup.find('div', {'class': 'mess'})
+        _mobile = str(first.find('b').text)
+        divrb = first.find('div', {'class': 'rb'})
+        _message = str(divrb.find('p').text)
+        if _mobile == str(mobile) and _message == message:
+            return True
+        else:
+            return False
 
     def send_later(self):
         raise NotImplemented
