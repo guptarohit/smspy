@@ -115,6 +115,36 @@ class Way2sms(object):
     def send_later(self):
         raise NotImplemented
 
+    def history(self, date):
+        if not self.token:
+            print('Not logged in')
+            return
+
+        _date = datetime.datetime.strptime(date, '%d/%m/%Y').strftime('%d/%m/%Y')
+
+        payload = {'Token': self.token, 'dt': _date}
+
+        _history_url = '/'.join([self.base_url, 'sentSMS.action'])
+
+        resp = self.session.post(_history_url, data=payload)
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+
+        part = soup.find_all('div', {'class': 'mess'})
+
+        headers = ['Time', 'Mobile no', 'SMS']
+        data = []
+
+        for div in part:
+            t = div.find('p', {'class': 'time'})
+            time = t.find('span').text
+            mobile_no = div.find('b').text
+            divrb = div.find('div', {'class': 'rb'})
+            message = divrb.find('p').text
+            data.append([time, mobile_no, message])
+
+        return headers, data
+
     def quota_left(self):
         if not self.token:
             print('Not logged in')
