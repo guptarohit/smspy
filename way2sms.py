@@ -1,4 +1,5 @@
 import requests
+import datetime
 import logging
 import textwrap
 from bs4 import BeautifulSoup
@@ -22,7 +23,10 @@ class Way2sms(object):
                                      'DNT': '1', 'Accept-Encoding': 'gzip, deflate',
                                      'Accept-Language': 'en-US,en;q=0.8'})
 
-        payload = {'username': username, 'password': password}
+        payload = {
+            'username': username,
+            'password': password
+        }
         _login_url = '/'.join([self.base_url, 'Login1.action?'])
 
         _login = self.session.post(_login_url, data=payload)
@@ -40,7 +44,7 @@ class Way2sms(object):
         self.session.get(_logout_url)
         self.token = ''
         self.session.close()
-        print('Logged out')
+        print('Successfully logged out')
 
     def send(self, to_number, message):
 
@@ -57,12 +61,13 @@ class Way2sms(object):
         for i, message in enumerate(message_list):
             message_length = len(message)
 
-            payload = {'ssaction': 'ss',
-                       'Token': self.token,
-                       'mobile': to_number,
-                       'message': message,
-                       'msgLen': str(140 - message_length)
-                       }
+            payload = {
+                'ssaction': 'ss',
+                'Token': self.token,
+                'mobile': to_number,
+                'message': message,
+                'msgLen': str(140 - message_length)
+            }
 
             resp = self.session.post(_send_sms_url, data=payload)
 
@@ -79,5 +84,26 @@ class Way2sms(object):
     def send_later(self):
         raise NotImplemented
 
-    def check_quota(self):
-        raise NotImplemented
+    def quota_left(self):
+        if not self.token:
+            print('Not logged in')
+            return
+
+        today = datetime.date.today().strftime('%d/%m/%Y')
+
+        payload = {
+            'Token': self.token,
+            'dt': today
+        }
+
+        _quota_left_url = '/'.join([self.base_url, 'sentSMS.action'])
+
+        resp = self.session.post(_quota_left_url, data=payload)
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+
+        sms_left = len(soup.find_all('div', {'class': 'mess'}))
+
+        print('You have {} sms left for today.'.format(100 - sms_left))
+
+        return sms_left
