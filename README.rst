@@ -7,3 +7,11 @@ way2sms
     :target: https://www.python.org/
 
 Python module to send free sms via `way2sms <http://www.way2sms.com>`_.
+
+
+Installation
+------------
+
+::
+
+    $ pip install git+git://github.com/guptarohit/way2sms.git
