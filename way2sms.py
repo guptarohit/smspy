@@ -85,7 +85,7 @@ class Way2sms(object):
                 print('Not sent, Quota finished.')
 
     def _sent_verify(self, mobile, message):
-        print('verifying message.')
+        print('Verifying sent message.')
         if not self.token:
             print('Not logged in')
             return
@@ -112,8 +112,43 @@ class Way2sms(object):
         else:
             return False
 
-    def send_later(self):
-        raise NotImplemented
+    def send_later(self, mobile, message, date, time):
+        if not self.token:
+            print('Not logged in')
+            return
+
+        _send_later_url = '/'.join([self.base_url, 'schedulesms.action'])
+
+        _date = datetime.datetime.strptime(date, '%d/%m/%Y').strftime('%d/%m/%Y')
+        _time = datetime.datetime.strptime(time, '%H:%M').strftime('%H:%M')
+
+        url_safe_message = message.strip()
+
+        message_list = textwrap.wrap(url_safe_message, 140)
+
+        quota_finished_text = "Rejected : Can't submit your message, finished your day quota."
+
+        for i, message in enumerate(message_list):
+            message_length = len(message)
+
+            payload = {
+                'Token': self.token,
+                'mobile': mobile,
+                'sdate': _date,
+                'stime': _time,
+                'message': message,
+                'msgLen': str(140 - message_length)
+            }
+
+            resp = self.session.post(_send_later_url, data=payload)
+
+            if len(message_list) > 1:
+                print('Part [{}/{}]'.format(i + 1, len(message_list)), end=' ')
+
+            if quota_finished_text not in resp.text:
+                print('Successfully scheduled, on {} {}'.format(_date, _time))
+            else:
+                print('Not sent, Quota finished.')
 
     def history(self, date):
         if not self.token:
