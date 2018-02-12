@@ -146,9 +146,52 @@ class Way2sms(object):
                 print('Part [{}/{}]'.format(i + 1, len(message_list)), end=' ')
 
             if quota_finished_text not in resp.text:
-                print('Successfully scheduled, on {} {}'.format(_date, _time))
+                if self._send_later_verify(mobile, message, date, time):
+                    print('Successfully scheduled, on {} {}'.format(_date, _time))
+                else:
+                    print('Unable to schedule message.')
             else:
                 print('Not sent, Quota finished.')
+
+    def _send_later_verify(self, mobile, message, date, time):
+        print('Verifying scheduled message.')
+        if not self.token:
+            print('Not logged in')
+            return
+
+        _date = datetime.datetime.strptime(date, '%d/%m/%Y').strftime('%Y-%m-%d')
+        _time = datetime.datetime.strptime(time, '%H:%M').strftime('%I:%M %p')
+
+        timestamp = f"{_time} {_date}"
+
+        payload = {
+            'Token': self.token,
+            'dt': _date
+        }
+
+        _sent_verify_url = '/'.join([self.base_url, 'MyfutureSMS.action'])
+
+        resp = self.session.post(_sent_verify_url, data=payload)
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+
+        msgs_lst = []
+        msgs = soup.findAll('div', {'class': 'mess'})
+
+        for msg in msgs:
+            _mobile = str(msg.find('a').text)
+            divrb = msg.find('div', {'class': 'rb'})
+            _message = divrb.find('p').text
+            _message = '\n'.join(_message.splitlines()[1:-2])
+            divbot = msg.find('div', {'class': 'bot'})
+            _time = divbot.find('p', {'class': 'time'}).text
+
+            msgs_lst.append([_mobile, _message, _time])
+
+        if [str(mobile), message, timestamp] in msgs_lst:
+            return True
+        else:
+            return False
 
     def history(self, date):
         if not self.token:
