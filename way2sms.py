@@ -1,6 +1,5 @@
 import requests
 import datetime
-import logging
 import textwrap
 from bs4 import BeautifulSoup
 
@@ -10,7 +9,6 @@ class Way2sms(object):
 
     def __init__(self):
         self.base_url = requests.head(Way2sms.URL, allow_redirects=True).url  # url after redirect
-
         self.session = requests.session()
         self.token = ''
 
@@ -112,12 +110,12 @@ class Way2sms(object):
         else:
             return False
 
-    def send_later(self, mobile, message, date, time):
+    def schedule(self, mobile, message, date, time):
         if not self.token:
             print('Not logged in')
             return
 
-        _send_later_url = '/'.join([self.base_url, 'schedulesms.action'])
+        _schedule_url = '/'.join([self.base_url, 'schedulesms.action'])
 
         _date = datetime.datetime.strptime(date, '%d/%m/%Y').strftime('%d/%m/%Y')
         _time = datetime.datetime.strptime(time, '%H:%M').strftime('%H:%M')
@@ -140,20 +138,20 @@ class Way2sms(object):
                 'msgLen': str(140 - message_length)
             }
 
-            resp = self.session.post(_send_later_url, data=payload)
+            resp = self.session.post(_schedule_url, data=payload)
 
             if len(message_list) > 1:
                 print('Part [{}/{}]'.format(i + 1, len(message_list)), end=' ')
 
             if quota_finished_text not in resp.text:
-                if self._send_later_verify(mobile, message, date, time):
+                if self._schedule_verify(mobile, message, date, time):
                     print('Successfully scheduled, on {} {}'.format(_date, _time))
                 else:
                     print('Unable to schedule message.')
             else:
                 print('Not sent, Quota finished.')
 
-    def _send_later_verify(self, mobile, message, date, time):
+    def _schedule_verify(self, mobile, message, date, time):
         print('Verifying scheduled message.')
         if not self.token:
             print('Not logged in')
@@ -192,6 +190,9 @@ class Way2sms(object):
             return True
         else:
             return False
+
+    def scheduled_messages(self):
+        raise NotImplemented
 
     def history(self, date):
         if not self.token:
