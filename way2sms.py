@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import requests
 import datetime
 import textwrap
@@ -160,7 +162,7 @@ class Way2sms(object):
         _date = datetime.datetime.strptime(date, '%d/%m/%Y').strftime('%Y-%m-%d')
         _time = datetime.datetime.strptime(time, '%H:%M').strftime('%I:%M %p')
 
-        timestamp = f"{_time} {_date}"
+        timestamp = '{} {}'.format(_time, _date)
 
         payload = {
             'Token': self.token,
