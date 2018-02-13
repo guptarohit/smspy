@@ -242,8 +242,8 @@ class Way2sms(object):
 
         soup = BeautifulSoup(resp.text, 'html.parser')
 
-        sms_left = len(soup.find_all('div', {'class': 'mess'}))
+        sms_sent = len(soup.find_all('div', {'class': 'mess'}))
+        sms_left = 100 - sms_sent
 
-        print('You have {} sms left for today.'.format(100 - sms_left))
-
+        print('You have {} sms left for today.'.format(sms_left))
         return sms_left
