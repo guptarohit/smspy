@@ -182,11 +182,11 @@ class Way2sms(object):
             _mobile = str(msg.find('a').text)
             divrb = msg.find('div', {'class': 'rb'})
             _message = divrb.find('p').text
-            _message = '\n'.join(_message.splitlines()[1:-2])
+            original_message = '\n'.join(_message.splitlines()[1:-2])
             divbot = msg.find('div', {'class': 'bot'})
             _time = divbot.find('p', {'class': 'time'}).text
 
-            msgs_lst.append([_mobile, _message, _time])
+            msgs_lst.append([_mobile, original_message, _time])
 
         if [str(mobile), message, timestamp] in msgs_lst:
             return True
