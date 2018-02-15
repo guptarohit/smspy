@@ -13,7 +13,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='way2sms',
-    version='0.4.2',
+    version='0.4.3',
     description='A python module to send sms via way2sms.com.',
     long_description=long_description,
     author='Rohit Gupta',
