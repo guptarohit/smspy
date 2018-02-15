@@ -7,8 +7,8 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = '\n' + f.read()
 
-with open('requirements.txt') as f:
-    required = f.readlines()
+required = ['beautifulsoup4', 'requests']
+
 
 setup(
     name='way2sms',
