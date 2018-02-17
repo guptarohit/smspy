@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy?ref=badge_shield)
+
 .. -*-restructuredtext-*-
 
 SMSpy
@@ -112,3 +114,7 @@ Contributing
 ------------
 
 Feel free to make a pull request! :octocat:
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy?ref=badge_large)
