@@ -10,16 +10,19 @@ with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
 with open('requirements.txt') as f:
     required = f.readlines()
 
+NAME = 'smspy'
+VERSION = '0.5.0'
 
 setup(
-    name='smspy',
-    version='0.4.4',
-    description='A python module for sending free sms via website way2sms',
+    name=NAME,
+    version=VERSION,
+    description='A python module for sending free sms via website way2sms.',
     long_description=long_description,
     author='Rohit Gupta',
     url='https://github.com/guptarohit/smspy',
-    py_modules=['smspy'],
+    packages=[NAME],
     install_requires=required,
+    include_package_data=True,
     license='BSD',
     classifiers=[
         'Development Status :: 4 - Beta',
