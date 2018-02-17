@@ -1,5 +1,5 @@
 import os
-from way2sms import Way2sms
+from smspy import Way2sms
 
 
 MOBILE_NO = os.getenv('MOBILE_NO')
