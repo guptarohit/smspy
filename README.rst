@@ -10,6 +10,10 @@ A minimalistic python wrapper for sending free sms via website `way2sms <http://
 .. image:: https://app.fossa.io/api/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy.svg?type=shield
     :target: https://app.fossa.io/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy?ref=badge_shield
     :alt: FOSSA Status
+    
+.. image:: https://travis-ci.org/guptarohit/smspy.svg?branch=master
+    :target: https://travis-ci.org/guptarohit/smspy
+
 
 Installation
 ------------
