@@ -12,13 +12,13 @@ with open('requirements.txt') as f:
 
 
 setup(
-    name='way2sms',
-    version='0.4.3',
-    description='A python module to send sms via way2sms.com.',
+    name='smspy',
+    version='0.4.4',
+    description='A python module for sending free sms via website way2sms',
     long_description=long_description,
     author='Rohit Gupta',
-    url='https://github.com/guptarohit/way2sms',
-    py_modules=['way2sms'],
+    url='https://github.com/guptarohit/smspy',
+    py_modules=['smspy'],
     install_requires=required,
     license='BSD',
     classifiers=[
