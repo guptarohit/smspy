@@ -10,6 +10,10 @@ with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
 with open('requirements.txt') as f:
     required = f.readlines()
 
+if sys.argv[-1] == "publish":
+    os.system("python setup.py sdist bdist_wheel upload")
+    sys.exit()
+
 NAME = 'smspy'
 VERSION = '0.5.0'
 
