@@ -46,7 +46,7 @@ Send SMS
 
     w2s.login(USERNAME, PASSWORD)
 
-    w2s.send(MOBILE_NO, MSG)
+    w2s.send(MOBILE_NUMBER, MESSAGE)
 
     w2s.logout()
 
@@ -62,7 +62,7 @@ Schedule SMS
 
     w2s.login(USERNAME, PASSWORD)
 
-    w2s.schedule(MOBILE_NO, MSG, DATE, TIME)
+    w2s.schedule(MOBILE_NUMBER, MESSAGE, DATE, TIME)
     # DATE should be in format DD/MM/YYYY and TIME in 24h HH:mm
 
     w2s.logout()
