@@ -7,12 +7,21 @@ A minimalistic python wrapper for sending free sms via website `way2sms <http://
 .. image:: https://img.shields.io/badge/Made%20with-Python-1f425f.svg
     :target: https://www.python.org/
 
+.. image:: https://img.shields.io/pypi/v/smspy.svg
+    :target: https://pypi.python.org/pypi/smspy
+    
 .. image:: https://app.fossa.io/api/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy.svg?type=shield
     :target: https://app.fossa.io/projects/git%2Bgithub.com%2Fguptarohit%2Fsmspy?ref=badge_shield
     :alt: FOSSA Status
     
 .. image:: https://travis-ci.org/guptarohit/smspy.svg?branch=master
     :target: https://travis-ci.org/guptarohit/smspy
+
+.. image:: https://img.shields.io/pypi/l/smspy.svg
+    :target: https://github.com/guptarohit/smspy/blob/master/LICENSE
+
+.. image:: https://img.shields.io/pypi/pyversions/smspy.svg
+    :target: https://pypi.python.org/pypi/smspy
 
 
 Installation
